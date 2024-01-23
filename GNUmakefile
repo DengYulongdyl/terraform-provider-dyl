@@ -77,9 +77,15 @@ mac:
 	rm -rf bin/terraform-provider-dyl
 
 mac-with-version:
-	GOOS=darwin GOARCH=amd64 go build -o bin/terraform-provider-dyl_v$(RELEASE_TAG)
-	zip -r bin/terraform-provider-dyl_$(RELEASE_TAG)_darwin_amd64.zip bin/terraform-provider-dyl_v$(RELEASE_TAG)
+	GOOS=darwin GOARCH=amd64 go build -o terraform-provider-dyl_v$(RELEASE_TAG)
+	zip -r terraform-provider-dyl_$(RELEASE_TAG)_darwin_amd64.zip terraform-provider-dyl_v$(RELEASE_TAG)
+	rm -rf terraform-provider-dyl_v$(RELEASE_TAG)
+
+
+	GOOS=darwin GOARCH=arm64 go build -o bin/terraform-provider-dyl_v$(RELEASE_TAG)
+	zip -r bin/terraform-provider-dyl_$(RELEASE_TAG)_darwin_arm64.zip bin/terraform-provider-dyl_v$(RELEASE_TAG)
 	rm -rf bin/terraform-provider-dyl_v$(RELEASE_TAG)
+
 
 windowscopy:
 	tar -xvf bin/terraform-provider-dyl_windows_amd64.tgz && mv bin/terraform-provider-dyl $(shell dirname `which terraform`)
@@ -90,9 +96,21 @@ windows:
 	rm -rf bin/terraform-provider-dyl.exe
 
 windows-with-version:
-	GOOS=windows GOARCH=amd64 go build -o bin/terraform-provider-dyl_v$(RELEASE_TAG).exe
-	zip -r bin/terraform-provider-dyl_$(RELEASE_TAG)_windows_amd64.zip bin/terraform-provider-dyl_v$(RELEASE_TAG).exe
-	rm -rf bin/terraform-provider-dyl_v$(RELEASE_TAG).exe
+	GOOS=windows GOARCH=amd64 go build -o terraform-provider-dyl_v$(RELEASE_TAG).exe
+	zip -r terraform-provider-dyl_$(RELEASE_TAG)_windows_amd64.zip terraform-provider-dyl_v$(RELEASE_TAG).exe
+	rm -rf terraform-provider-dyl_v$(RELEASE_TAG).exe
+
+	GOOS=windows GOARCH='386' go build -o terraform-provider-dyl_v$(RELEASE_TAG).exe
+	zip -r terraform-provider-dyl_$(RELEASE_TAG)_windows_386.zip terraform-provider-dyl_v$(RELEASE_TAG).exe
+	rm -rf terraform-provider-dyl_v$(RELEASE_TAG).exe
+
+	GOOS=windows GOARCH=arm go build -o terraform-provider-dyl_v$(RELEASE_TAG).exe
+	zip -r terraform-provider-dyl_$(RELEASE_TAG)_windows_arm.zip terraform-provider-dyl_v$(RELEASE_TAG).exe
+	rm -rf terraform-provider-dyl_v$(RELEASE_TAG).exe
+
+	GOOS=windows GOARCH=arm64 go build -o terraform-provider-dyl_v$(RELEASE_TAG).exe
+	zip -r terraform-provider-dyl_$(RELEASE_TAG)_windows_arm64.zip terraform-provider-dyl_v$(RELEASE_TAG).exe
+	rm -rf terraform-provider-dyl_v$(RELEASE_TAG).exe
 
 linuxcopy:
 	tar -xvf bin/terraform-provider-dyl_linux_amd64.tgz && mv bin/terraform-provider-dyl $(shell dirname `which terraform`)
@@ -103,15 +121,27 @@ linux:
 	rm -rf bin/terraform-provider-dyl
 
 linux-with-version:
-	GOOS=linux GOARCH=amd64 go build -o bin/terraform-provider-dyl_v$(RELEASE_TAG)
-	zip -r bin/terraform-provider-dyl_$(RELEASE_TAG)_linux_amd64.zip bin/terraform-provider-dyl_v$(RELEASE_TAG)
-	rm -rf bin/terraform-provider-dyl_v$(RELEASE_TAG)
+	GOOS=linux GOARCH=amd64 go build -o terraform-provider-dyl_v$(RELEASE_TAG)
+	zip -r terraform-provider-dyl_$(RELEASE_TAG)_linux_amd64.zip terraform-provider-dyl_v$(RELEASE_TAG)
+	rm -rf terraform-provider-dyl_v$(RELEASE_TAG)
+
+	GOOS=linux GOARCH='386' go build -o terraform-provider-dyl_v$(RELEASE_TAG)
+	zip -r terraform-provider-dyl_$(RELEASE_TAG)_linux_386.zip terraform-provider-dyl_v$(RELEASE_TAG)
+	rm -rf terraform-provider-dyl_v$(RELEASE_TAG)
+
+	GOOS=linux GOARCH=arm go build -o terraform-provider-dyl_v$(RELEASE_TAG)
+	zip -r terraform-provider-dyl_$(RELEASE_TAG)_linux_arm.zip terraform-provider-dyl_v$(RELEASE_TAG)
+	rm -rf terraform-provider-dyl_v$(RELEASE_TAG)
+
+	GOOS=linux GOARCH=arm64 go build -o terraform-provider-dyl_v$(RELEASE_TAG)
+	zip -r terraform-provider-dyl_$(RELEASE_TAG)_linux_arm64.zip terraform-provider-dyl_v$(RELEASE_TAG)
+	rm -rf terraform-provider-dyl_v$(RELEASE_TAG)
 
 manifest:
-	cp terraform-registry-manifest.json bin/terraform-provider-dyl_$(RELEASE_TAG)_manifest.json
+	cp terraform-registry-manifest.json terraform-provider-dyl_$(RELEASE_TAG)_manifest.json
 
 checksum:
-	shasum -a 256 ./bin/*.zip > terraform-provider-dyl_$(RELEASE_TAG)_SHA256SUMS
+	shasum -a 256 *.zip terraform-provider-dyl_$(RELEASE_TAG)_manifest.json > terraform-provider-dyl_$(RELEASE_TAG)_SHA256SUMS
 	gpg --detach-sign terraform-provider-dyl_$(RELEASE_TAG)_SHA256SUMS
-	mv terraform-provider-dyl_$(RELEASE_TAG)_SHA256SUMS ./bin/
-	mv terraform-provider-dyl_$(RELEASE_TAG)_SHA256SUMS.sig ./bin/
+	#mv terraform-provider-dyl_$(RELEASE_TAG)_SHA256SUMS ./bin/
+	#mv terraform-provider-dyl_$(RELEASE_TAG)_SHA256SUMS.sig ./bin/
