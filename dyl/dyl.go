@@ -1,26 +1,20 @@
 package dyl
 
-import (
-	"testing"
-
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-)
-
-func TestAccCdsSecurityGroupDataSource_basic(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:     func() { testAccPreCheck(t) },
-		Providers:    testAccProviders,
-		CheckDestroy: testAccSecurityGroupDestroy,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccCdsSecurityGroupDataSource_basic(),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					testAccSecurityGroupExists("cds_security_group.security_group_1"),
-				),
-			},
-		},
-	})
-}
+//func TestAccCdsSecurityGroupDataSource_basic(t *testing.T) {
+//	resource.Test(t, resource.TestCase{
+//		PreCheck:     func() { testAccPreCheck(t) },
+//		Providers:    testAccProviders,
+//		CheckDestroy: testAccSecurityGroupDestroy,
+//		Steps: []resource.TestStep{
+//			{
+//				Config: testAccCdsSecurityGroupDataSource_basic(),
+//				Check: resource.ComposeAggregateTestCheckFunc(
+//					testAccSecurityGroupExists("cds_security_group.security_group_1"),
+//				),
+//			},
+//		},
+//	})
+//}
 
 func testAccCdsSecurityGroupDataSource_basic() string {
 	return `
